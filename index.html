@@ -3,22 +3,112 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Sonata 的个人 OC 网站">
-  <title>Sonata</title>
-  <style>
-    :root { color-scheme: light dark; font-family: system-ui, sans-serif; }
-    body { margin: 0; min-height: 100vh; display: grid; place-items: center; }
-    main { width: min(42rem, calc(100% - 3rem)); }
-    h1 { font-size: clamp(3rem, 12vw, 7rem); margin: 0 0 1rem; }
-    p { line-height: 1.7; }
-    small { opacity: .65; }
-  </style>
+  <meta name="description" content="Sonata 的个人角色档案与视觉资料集">
+  <meta name="theme-color" content="#171514">
+  <title>Sonata｜角色档案</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main>
-    <h1>Sonata</h1>
-    <p>OC 网站已经就绪。</p>
-    <small>角色资料与视觉设计将在下一步添加。</small>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+    <a class="brand" href="#cover" aria-label="返回 Sonata 首页">SONATA <span>ARCHIVE</span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">目录</button>
+    <nav id="site-nav" aria-label="主要栏目">
+      <a href="#profile">概括档案</a>
+      <a href="#narratives">图像叙事</a>
+      <a href="#wardrobe">衣橱</a>
+      <a href="#comic">漫画</a>
+      <a href="#story">完整正文</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section id="cover" class="cover section-dark" aria-labelledby="cover-title">
+      <div class="cover-copy">
+        <p class="eyebrow">CHARACTER ARCHIVE · 001</p>
+        <h1 id="cover-title">Sonata</h1>
+        <p id="cover-intro" class="cover-intro"></p>
+        <a class="text-link" href="#profile">打开档案 <span aria-hidden="true">↓</span></a>
+      </div>
+      <figure class="hero-media placeholder-media" id="hero-media">
+        <span>主视觉占位</span>
+      </figure>
+      <div class="cover-index" aria-label="网站内容概况">
+        <span>一页概括档案</span>
+        <span>40+ 视觉资料</span>
+        <span>五页短篇漫画</span>
+        <span>约 3k 完整正文</span>
+      </div>
+    </section>
+
+    <section id="profile" class="section section-paper" aria-labelledby="profile-title">
+      <div class="section-heading">
+        <p class="eyebrow">01 · PROFILE</p>
+        <h2 id="profile-title">概括档案</h2>
+        <p>一分钟认识 Sonata，详细背景可继续进入完整正文。</p>
+      </div>
+      <div class="profile-layout">
+        <figure class="profile-media placeholder-media" id="profile-media"><span>档案立绘占位</span></figure>
+        <div>
+          <blockquote id="profile-quote"></blockquote>
+          <dl id="profile-facts" class="fact-grid"></dl>
+          <div id="profile-summary" class="profile-summary"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="narratives" class="section section-ink" aria-labelledby="narratives-title">
+      <div class="section-heading split-heading">
+        <div><p class="eyebrow">02 · VISUAL STORIES</p><h2 id="narratives-title">图像叙事</h2></div>
+        <p>每张画稿都可以拥有独立的小片段。点击画面后，以大图与故事并排阅读。</p>
+      </div>
+      <div id="narrative-grid" class="art-grid"></div>
+    </section>
+
+    <section id="wardrobe" class="section section-paper" aria-labelledby="wardrobe-title">
+      <div class="section-heading split-heading">
+        <div><p class="eyebrow">03 · WARDROBE</p><h2 id="wardrobe-title">Sonata 的衣橱</h2></div>
+        <p>未出现在正式插图里的服装也作为设定资料独立成立，并可在以后补充穿着记录。</p>
+      </div>
+      <div class="wardrobe-tools" aria-label="衣橱状态说明">
+        <span>设定服装</span><span>正式登场</span><span>尚未登场</span>
+      </div>
+      <div id="wardrobe-grid" class="wardrobe-grid"></div>
+    </section>
+
+    <section id="comic" class="section section-comic" aria-labelledby="comic-title">
+      <div class="section-heading">
+        <p class="eyebrow">04 · SHORT COMIC</p>
+        <h2 id="comic-title">五页短篇漫画</h2>
+        <p>按原始页序连续阅读，不裁切黑白画面。点击单页可放大。</p>
+      </div>
+      <div id="comic-strip" class="comic-strip"></div>
+    </section>
+
+    <section id="story" class="section section-paper story" aria-labelledby="story-title">
+      <div class="section-heading">
+        <p class="eyebrow">05 · FULL STORY</p>
+        <h2 id="story-title">完整正文</h2>
+      </div>
+      <div class="story-layout">
+        <nav id="story-toc" class="story-toc" aria-label="正文目录"></nav>
+        <article id="story-content" class="story-content"></article>
+      </div>
+    </section>
   </main>
+
+  <footer>
+    <span>SONATA ARCHIVE</span>
+    <span>图片与文字版权归原作者所有 · 请勿转载或用于训练</span>
+  </footer>
+
+  <dialog id="detail-dialog" class="detail-dialog">
+    <button class="dialog-close" type="button" aria-label="关闭详情">关闭</button>
+    <div id="dialog-body"></div>
+  </dialog>
+
+  <script src="content.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
+
