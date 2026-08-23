@@ -57,12 +57,12 @@ p { line-height: 1.75; }
 .hero-media { width: 100%; aspect-ratio: 3/4; }
 .score-nav { position: relative; grid-column: 1/-1; height: clamp(10rem, 18vw, 13rem); margin-top: clamp(-3rem, -4vw, -1rem); }
 .score-staff { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
-.score-staff i { position: absolute; left: 4%; width: 92%; height: 165%; border-top: 1px solid var(--line-dark); border-radius: 50%; transform: rotate(-3deg); }
-.score-staff i:nth-child(1) { top: 30%; }
-.score-staff i:nth-child(2) { top: 35%; }
-.score-staff i:nth-child(3) { top: 40%; }
-.score-staff i:nth-child(4) { top: 45%; }
-.score-staff i:nth-child(5) { top: 50%; }
+.score-staff i { position: absolute; left: 3%; width: 94%; height: 150%; border: 1px solid color-mix(in srgb, var(--paper) 38%, transparent); border-radius: 50%; clip-path: inset(0 0 50% 0); transform: rotate(-3deg); }
+.score-staff i:nth-child(1) { top: 15%; }
+.score-staff i:nth-child(2) { top: 20%; }
+.score-staff i:nth-child(3) { top: 25%; }
+.score-staff i:nth-child(4) { top: 30%; }
+.score-staff i:nth-child(5) { top: 35%; }
 .score-note { position: absolute; display: grid; justify-items: center; color: var(--paper); text-decoration: none; transform: translate(-50%, -50%); z-index: 2; }
 .note-symbol { display: grid; place-items: center; width: 2.8rem; height: 2.8rem; color: var(--paper); background: var(--ink); border: 1px solid var(--line-dark); border-radius: 50%; font-family: var(--serif); font-size: 1.55rem; transition: color .2s ease, border-color .2s ease, transform .2s ease, background .2s ease; }
 .note-label { margin-top: .35rem; padding: .25rem .45rem; color: var(--muted-dark); background: color-mix(in srgb, var(--ink) 88%, transparent); font-size: .72rem; white-space: nowrap; opacity: .72; transition: color .2s ease, opacity .2s ease; }
