@@ -105,24 +105,40 @@
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
     if (!AudioContextClass) return;
     audioContext ||= new AudioContextClass();
+    if (audioContext.state === "suspended") audioContext.resume();
     const now = audioContext.currentTime;
+    const duration = 1.05;
     const gain = audioContext.createGain();
+    const filter = audioContext.createBiquadFilter();
     const tone = audioContext.createOscillator();
-    const overtone = audioContext.createOscillator();
-    tone.type = "sine";
-    overtone.type = "triangle";
+    const vibrato = audioContext.createOscillator();
+    const vibratoDepth = audioContext.createGain();
+    const wave = audioContext.createPeriodicWave(
+      new Float32Array([0, 0, 0, 0, 0, 0, 0]),
+      new Float32Array([0, 1, 0.56, 0.34, 0.2, 0.12, 0.07])
+    );
+    tone.setPeriodicWave(wave);
     tone.frequency.setValueAtTime(frequency, now);
-    overtone.frequency.setValueAtTime(frequency * 2, now);
+    vibrato.type = "sine";
+    vibrato.frequency.setValueAtTime(5.4, now);
+    vibratoDepth.gain.setValueAtTime(0, now);
+    vibratoDepth.gain.linearRampToValueAtTime(frequency * 0.011, now + 0.24);
+    filter.type = "lowpass";
+    filter.frequency.setValueAtTime(2400, now);
+    filter.Q.setValueAtTime(0.7, now);
     gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.exponentialRampToValueAtTime(0.09, now + 0.018);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.65);
-    tone.connect(gain);
-    overtone.connect(gain);
+    gain.gain.linearRampToValueAtTime(0.075, now + 0.075);
+    gain.gain.setValueAtTime(0.075, now + 0.55);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+    vibrato.connect(vibratoDepth);
+    vibratoDepth.connect(tone.frequency);
+    tone.connect(filter);
+    filter.connect(gain);
     gain.connect(audioContext.destination);
     tone.start(now);
-    overtone.start(now);
-    tone.stop(now + 0.68);
-    overtone.stop(now + 0.68);
+    vibrato.start(now);
+    tone.stop(now + duration + 0.03);
+    vibrato.stop(now + duration + 0.03);
   }
 
   document.querySelectorAll(".score-note").forEach((note) => {
