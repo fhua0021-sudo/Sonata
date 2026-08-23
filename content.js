@@ -17,11 +17,11 @@ window.SONATA_CONTENT = {
     summary: "这里放置现有一页概括档案中的简短总结。可拆分成身份、外貌、性格、能力与重要关系。"
   },
   narratives: {
-    placeholderCount: 24,
+    placeholderCount: 32,
     items: []
   },
   wardrobe: {
-    placeholderCount: 18,
+    placeholderCount: 10,
     items: []
   },
   comic: [
