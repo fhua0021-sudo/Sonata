@@ -99,6 +99,50 @@
   let soundEnabled = true;
   let audioContext;
   const soundToggle = document.querySelector(".sound-toggle");
+  const homeLink = document.querySelector(".brand");
+  const scoreNav = document.querySelector(".score-nav");
+  const scoreCanvas = document.querySelector(".score-canvas");
+  const scoreNotes = Array.from(document.querySelectorAll(".score-note"));
+
+  function drawScore() {
+    const width = scoreNav.clientWidth;
+    const height = scoreNav.clientHeight;
+    if (!width || !height) return;
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+    scoreCanvas.width = Math.round(width * pixelRatio);
+    scoreCanvas.height = Math.round(height * pixelRatio);
+    scoreCanvas.style.width = `${width}px`;
+    scoreCanvas.style.height = `${height}px`;
+    const context = scoreCanvas.getContext("2d");
+    context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+    context.clearRect(0, 0, width, height);
+    context.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue("--paper").trim();
+    context.globalAlpha = 0.42;
+    context.lineWidth = 1;
+    const centerY = height * 0.26;
+    const edgeY = height * 0.78;
+    const controlY = 2 * centerY - edgeY;
+    const curveY = (x) => centerY + (edgeY - centerY) * Math.pow((x / width - 0.5) * 2, 2);
+    const lineOffsets = [-14, -7, 0, 7, 14];
+    lineOffsets.forEach((offset) => {
+      context.beginPath();
+      context.moveTo(0, edgeY + offset);
+      context.quadraticCurveTo(width / 2, controlY + offset, width, edgeY + offset);
+      context.stroke();
+    });
+    const notePositions = [0.08, 0.25, 0.42, 0.59, 0.76];
+    const noteLines = [14, 7, 0, -7, -14];
+    scoreNotes.forEach((note, index) => {
+      const x = width * notePositions[index];
+      note.style.left = `${x}px`;
+      note.style.top = `${curveY(x) + noteLines[index]}px`;
+    });
+    scoreNav.classList.add("is-ready");
+  }
+
+  drawScore();
+  if ("ResizeObserver" in window) new ResizeObserver(drawScore).observe(scoreNav);
+  else window.addEventListener("resize", drawScore);
 
   function playNote(frequency) {
     if (!soundEnabled) return;
@@ -176,6 +220,13 @@
 
   document.querySelectorAll(".score-note").forEach((note) => {
     note.addEventListener("click", () => playNote(Number(note.dataset.tone)));
+  });
+
+  homeLink.addEventListener("click", () => {
+    if (!soundEnabled) return;
+    [261.63, 329.63, 392, 523.25].forEach((frequency, index) => {
+      window.setTimeout(() => playNote(frequency), index * 145);
+    });
   });
 
   soundToggle.addEventListener("click", () => {
