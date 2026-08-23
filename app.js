@@ -130,7 +130,7 @@
       context.quadraticCurveTo(width / 2, controlY + offset, width, edgeY + offset);
       context.stroke();
     });
-    const notePositions = [0.08, 0.25, 0.42, 0.59, 0.76];
+    const notePositions = [0.1, 0.3, 0.5, 0.7, 0.9];
     const noteLines = [14, 7, 0, -7, -14];
     scoreNotes.forEach((note, index) => {
       const x = width * notePositions[index];
@@ -185,6 +185,49 @@
     vibrato.stop(now + duration + 0.03);
   }
 
+  function playHomePhrase() {
+    if (!soundEnabled) return;
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return;
+    audioContext ||= new AudioContextClass();
+    if (audioContext.state === "suspended") audioContext.resume();
+    const now = audioContext.currentTime;
+    const duration = 0.96;
+    const tone = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+    const filter = audioContext.createBiquadFilter();
+    const vibrato = audioContext.createOscillator();
+    const vibratoDepth = audioContext.createGain();
+    const wave = audioContext.createPeriodicWave(
+      new Float32Array([0, 0, 0, 0, 0]),
+      new Float32Array([0, 1, 0.34, 0.14, 0.05])
+    );
+    const phrase = [293.66, 329.63, 392, 369.99, 329.63];
+    tone.setPeriodicWave(wave);
+    phrase.forEach((frequency, index) => {
+      const at = now + index * 0.16;
+      tone.frequency.setValueAtTime(frequency, at);
+    });
+    vibrato.type = "sine";
+    vibrato.frequency.setValueAtTime(5.1, now);
+    vibratoDepth.gain.setValueAtTime(0, now);
+    vibratoDepth.gain.linearRampToValueAtTime(2.2, now + 0.22);
+    filter.type = "lowpass";
+    filter.frequency.setValueAtTime(1900, now);
+    filter.Q.setValueAtTime(0.35, now);
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.linearRampToValueAtTime(0.065, now + 0.08);
+    gain.gain.setValueAtTime(0.055, now + 0.69);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+    vibrato.connect(vibratoDepth);
+    vibratoDepth.connect(tone.frequency);
+    tone.connect(filter).connect(gain).connect(audioContext.destination);
+    tone.start(now);
+    vibrato.start(now);
+    tone.stop(now + duration + 0.03);
+    vibrato.stop(now + duration + 0.03);
+  }
+
   function playStringSnap() {
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
     if (!AudioContextClass) return;
@@ -222,12 +265,7 @@
     note.addEventListener("click", () => playNote(Number(note.dataset.tone)));
   });
 
-  homeLink.addEventListener("click", () => {
-    if (!soundEnabled) return;
-    [261.63, 329.63, 392, 523.25].forEach((frequency, index) => {
-      window.setTimeout(() => playNote(frequency), index * 145);
-    });
-  });
+  homeLink.addEventListener("click", playHomePhrase);
 
   soundToggle.addEventListener("click", () => {
     if (soundEnabled) {
