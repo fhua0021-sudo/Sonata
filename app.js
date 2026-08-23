@@ -98,7 +98,7 @@
 
   let soundEnabled = true;
   let audioContext;
-  const soundToggle = document.querySelector(".sound-toggle");
+  const scoreBreakToggle = document.querySelector(".score-break-toggle");
   const homeLink = document.querySelector(".brand");
   const scoreNav = document.querySelector(".score-nav");
   const scoreCanvas = document.querySelector(".score-canvas");
@@ -125,10 +125,28 @@
     const curveY = (x) => centerY + (edgeY - centerY) * Math.pow((x / width - 0.5) * 2, 2);
     const lineOffsets = [-14, -7, 0, 7, 14];
     lineOffsets.forEach((offset) => {
-      context.beginPath();
-      context.moveTo(0, edgeY + offset);
-      context.quadraticCurveTo(width / 2, controlY + offset, width, edgeY + offset);
-      context.stroke();
+      if (!scoreNav.classList.contains("is-broken")) {
+        context.beginPath();
+        context.moveTo(0, edgeY + offset);
+        context.quadraticCurveTo(width / 2, controlY + offset, width, edgeY + offset);
+        context.stroke();
+        return;
+      }
+      const gapStart = width * 0.475;
+      const gapEnd = width * 0.525;
+      const drawFragment = (from, to, inward) => {
+        context.beginPath();
+        for (let x = from; inward > 0 ? x <= to : x >= to; x += inward * 6) {
+          const y = curveY(x) + offset;
+          if (x === from) context.moveTo(x, y);
+          else context.lineTo(x, y);
+        }
+        const endY = curveY(to) + offset;
+        context.lineTo(to + inward * 8, endY + (offset % 3 - 1) * 4);
+        context.stroke();
+      };
+      drawFragment(0, gapStart, 1);
+      drawFragment(width, gapEnd, -1);
     });
     const notePositions = [0.1, 0.3, 0.5, 0.7, 0.9];
     const noteLines = [14, 7, 0, -7, -14];
@@ -202,10 +220,10 @@
       new Float32Array([0, 0, 0, 0, 0]),
       new Float32Array([0, 1, 0.34, 0.14, 0.05])
     );
-    const phrase = [293.66, 329.63, 392, 369.99, 329.63];
+    const phrase = [329.63, 392];
     tone.setPeriodicWave(wave);
     phrase.forEach((frequency, index) => {
-      const at = now + index * 0.16;
+      const at = now + index * 0.38;
       tone.frequency.setValueAtTime(frequency, at);
     });
     vibrato.type = "sine";
@@ -267,16 +285,18 @@
 
   homeLink.addEventListener("click", playHomePhrase);
 
-  soundToggle.addEventListener("click", () => {
+  scoreBreakToggle.addEventListener("click", () => {
     if (soundEnabled) {
       playStringSnap();
       soundEnabled = false;
     } else {
       soundEnabled = true;
-      playNote(440);
     }
-    soundToggle.setAttribute("aria-pressed", String(soundEnabled));
-    soundToggle.querySelector(".string-label").textContent = soundEnabled ? "弦未断" : "弦已断";
+    scoreNav.classList.toggle("is-broken", !soundEnabled);
+    scoreBreakToggle.setAttribute("aria-pressed", String(!soundEnabled));
+    scoreBreakToggle.setAttribute("aria-label", soundEnabled ? "点击五线谱断弦并关闭声音" : "点击断裂的五线谱重新接弦并恢复声音");
+    scoreBreakToggle.querySelector("span").textContent = soundEnabled ? "点击谱线 · 断弦" : "谱线已断 · 点击接弦";
+    drawScore();
   });
 })();
 
