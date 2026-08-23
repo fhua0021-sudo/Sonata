@@ -6,12 +6,15 @@
   <meta name="description" content="Sonata 的个人角色档案与视觉资料集">
   <meta name="theme-color" content="#171514">
   <title>Sonata｜角色档案</title>
-  <link rel="stylesheet" href="styles.css?v=3">
+  <link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
   <a class="skip-link" href="#main">跳到正文</a>
   <header class="site-header">
-    <a class="brand" href="#cover" aria-label="返回 Sonata 首页">SONATA <span>♪ ARCHIVE</span></a>
+    <a class="brand" href="#cover" aria-label="回到首页">
+      <span class="home-staff" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><b>♪</b></span>
+      <span class="home-label">回到首页</span>
+    </a>
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">目录</button>
     <nav id="site-nav" aria-label="主要栏目">
       <a href="#profile">概括档案</a>
@@ -28,7 +31,6 @@
         <p class="eyebrow">CHARACTER ARCHIVE · 001</p>
         <h1 id="cover-title">Sonata</h1>
         <p id="cover-intro" class="cover-intro"></p>
-        <a class="text-link" href="#profile">打开档案 <span aria-hidden="true">↓</span></a>
       </div>
       <figure class="hero-media placeholder-media" id="hero-media">
         <span>主视觉占位</span>
@@ -42,14 +44,8 @@
         <a class="score-note note-wardrobe" href="#wardrobe" data-tone="329.63"><span class="note-symbol" aria-hidden="true">♩</span><span class="note-label">衣橱</span></a>
         <a class="score-note note-comic" href="#comic" data-tone="392.00"><span class="note-symbol" aria-hidden="true">♪</span><span class="note-label">漫画</span></a>
         <a class="score-note note-story" href="#story" data-tone="440.00"><span class="note-symbol" aria-hidden="true">♬</span><span class="note-label">完整正文</span></a>
-        <button class="sound-toggle" type="button" aria-pressed="true">音效：开</button>
+        <button class="sound-toggle" type="button" aria-pressed="true"><span class="string-icon" aria-hidden="true"><i></i><i></i></span><span class="string-label">弦未断</span></button>
       </nav>
-      <div class="cover-index" aria-label="网站内容概况">
-        <span>30+ 图像片段</span>
-        <span>10 套服装档案</span>
-        <span>五页短篇漫画</span>
-        <span>约 3k 完整正文</span>
-      </div>
     </section>
 
     <section id="profile" class="section section-paper" aria-labelledby="profile-title">
@@ -119,7 +115,7 @@
   </dialog>
 
   <script src="content.js?v=2"></script>
-  <script src="app.js?v=3"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>
 
