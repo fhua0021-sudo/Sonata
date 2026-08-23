@@ -6,7 +6,7 @@
   <meta name="description" content="Sonata 的个人角色档案与视觉资料集">
   <meta name="theme-color" content="#171514">
   <title>Sonata｜角色档案</title>
-  <link rel="stylesheet" href="styles.css?v=6">
+  <link rel="stylesheet" href="styles.css?v=7">
 </head>
 <body>
   <a class="skip-link" href="#main">跳到正文</a>
@@ -23,7 +23,6 @@
       <a href="#comic">漫画</a>
       <a href="#story">完整正文</a>
     </nav>
-    <button class="sound-toggle" type="button" aria-pressed="true"><span class="string-icon" aria-hidden="true"><i></i><i></i></span><span class="string-label">弦未断</span></button>
   </header>
 
   <main id="main">
@@ -38,6 +37,7 @@
       </figure>
       <nav class="score-nav" aria-label="弧线曲谱目录">
         <canvas class="score-canvas" aria-hidden="true"></canvas>
+        <button class="score-break-toggle" type="button" aria-pressed="false" aria-label="点击五线谱断弦并关闭声音"><span>点击谱线 · 断弦</span></button>
         <a class="score-note note-profile" href="#profile" data-tone="261.63"><span class="note-symbol" aria-hidden="true">♩</span><span class="note-label">概括档案</span></a>
         <a class="score-note note-narratives" href="#narratives" data-tone="293.66"><span class="note-symbol" aria-hidden="true">♪</span><span class="note-label">图像叙事</span></a>
         <a class="score-note note-wardrobe" href="#wardrobe" data-tone="329.63"><span class="note-symbol" aria-hidden="true">♫</span><span class="note-label">衣橱</span></a>
@@ -113,7 +113,7 @@
   </dialog>
 
   <script src="content.js?v=2"></script>
-  <script src="app.js?v=6"></script>
+  <script src="app.js?v=7"></script>
 </body>
 </html>
 
