@@ -141,14 +141,53 @@
     vibrato.stop(now + duration + 0.03);
   }
 
+  function playStringSnap() {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return;
+    audioContext ||= new AudioContextClass();
+    if (audioContext.state === "suspended") audioContext.resume();
+    const now = audioContext.currentTime;
+    const twang = audioContext.createOscillator();
+    const twangGain = audioContext.createGain();
+    const noise = audioContext.createBufferSource();
+    const noiseFilter = audioContext.createBiquadFilter();
+    const noiseGain = audioContext.createGain();
+    const buffer = audioContext.createBuffer(1, Math.floor(audioContext.sampleRate * 0.16), audioContext.sampleRate);
+    const channel = buffer.getChannelData(0);
+    for (let index = 0; index < channel.length; index += 1) channel[index] = (Math.random() * 2 - 1) * (1 - index / channel.length);
+    noise.buffer = buffer;
+    twang.type = "sawtooth";
+    twang.frequency.setValueAtTime(360, now);
+    twang.frequency.exponentialRampToValueAtTime(72, now + 0.24);
+    twangGain.gain.setValueAtTime(0.07, now);
+    twangGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.28);
+    noiseFilter.type = "bandpass";
+    noiseFilter.frequency.setValueAtTime(1700, now);
+    noiseFilter.Q.setValueAtTime(0.8, now);
+    noiseGain.gain.setValueAtTime(0.045, now);
+    noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.16);
+    twang.connect(twangGain).connect(audioContext.destination);
+    noise.connect(noiseFilter).connect(noiseGain).connect(audioContext.destination);
+    twang.start(now);
+    noise.start(now);
+    twang.stop(now + 0.3);
+    noise.stop(now + 0.18);
+  }
+
   document.querySelectorAll(".score-note").forEach((note) => {
     note.addEventListener("click", () => playNote(Number(note.dataset.tone)));
   });
 
   soundToggle.addEventListener("click", () => {
-    soundEnabled = !soundEnabled;
+    if (soundEnabled) {
+      playStringSnap();
+      soundEnabled = false;
+    } else {
+      soundEnabled = true;
+      playNote(440);
+    }
     soundToggle.setAttribute("aria-pressed", String(soundEnabled));
-    soundToggle.textContent = `音效：${soundEnabled ? "开" : "关"}`;
+    soundToggle.querySelector(".string-label").textContent = soundEnabled ? "弦未断" : "弦已断";
   });
 })();
 
