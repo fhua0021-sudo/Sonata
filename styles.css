@@ -28,11 +28,18 @@ button { font: inherit; }
 .brand span { color: var(--muted-dark); font-family: var(--sans); font-size: .7rem; }
 #site-nav { display: flex; gap: 1.4rem; }
 #site-nav a { color: var(--muted-dark); text-decoration: none; font-size: .88rem; }
+#site-nav a::before { content: "♪"; display: inline-block; width: 1rem; color: var(--accent); opacity: 0; transform: translateX(-.25rem); transition: opacity .2s ease, transform .2s ease; }
+#site-nav a:hover::before, #site-nav a:focus-visible::before { opacity: 1; transform: translateX(0); }
 #site-nav a:hover, #site-nav a:focus-visible { color: var(--paper); }
 .menu-toggle { display: none; color: var(--paper); background: transparent; border: 1px solid var(--line-dark); padding: .45rem .8rem; }
 
-.section, .cover { scroll-margin-top: 4.5rem; }
-.section { padding: clamp(5rem, 10vw, 9rem) max(1.25rem, calc((100vw - var(--max)) / 2)); }
+.section, .cover { position: relative; scroll-margin-top: 4.5rem; }
+.section { padding: clamp(5rem, 10vw, 9rem) max(1.25rem, calc((100vw - var(--max)) / 2)); overflow: hidden; }
+.section::before { content: "♪"; position: absolute; top: 2rem; left: max(1.25rem, calc((100vw - var(--max)) / 2)); width: min(10rem, 28vw); height: 1.65rem; padding-right: .8rem; color: currentColor; opacity: .2; text-align: right; line-height: 1.35rem; font-family: var(--serif); background: repeating-linear-gradient(to bottom, transparent 0 4px, currentColor 4px 5px); pointer-events: none; }
+.section:nth-of-type(2)::before { content: "♩"; }
+.section:nth-of-type(3)::before { content: "♫"; }
+.section:nth-of-type(4)::before { content: "♪"; }
+.section:nth-of-type(5)::before { content: "♬"; }
 .section-dark, .section-ink { background: var(--ink); color: var(--paper); }
 .section-paper { background: var(--paper); color: var(--ink); }
 .section-comic { background: var(--ink-soft); color: var(--paper); overflow: hidden; }
