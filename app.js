@@ -15,8 +15,8 @@
   }
 
   byId("cover-intro").textContent = data.cover.intro;
-  fillMedia("hero-media", data.cover.heroImage, "Sonata 主视觉");
-  fillMedia("profile-media", data.profile.image, "Sonata 档案立绘");
+  fillMedia("hero-media", data.cover.heroImage, "琴的主视觉");
+  fillMedia("profile-media", data.profile.image, "琴的档案立绘");
   byId("profile-quote").textContent = data.profile.quote;
   byId("profile-facts").innerHTML = data.profile.facts.map(([term, value]) => `<div><dt>${escapeHtml(term)}</dt><dd>${escapeHtml(value)}</dd></div>`).join("");
   byId("profile-summary").textContent = data.profile.summary;
