@@ -50,11 +50,32 @@ h2 { margin: 0; font-size: clamp(2.7rem, 7vw, 5.6rem); line-height: .95; }
 h3 { margin: 0; font-size: 1.45rem; }
 p { line-height: 1.75; }
 
-.cover { min-height: calc(100vh - 4.5rem); max-width: var(--max); margin: auto; padding: clamp(3rem, 7vw, 6rem) 1.25rem 2rem; display: grid; grid-template-columns: 1.1fr .75fr; grid-template-rows: 1fr auto; gap: clamp(2rem, 5vw, 5rem); align-items: center; }
+.cover { min-height: calc(100vh - 4.5rem); max-width: var(--max); margin: auto; padding: clamp(3rem, 7vw, 6rem) 1.25rem 2rem; display: grid; grid-template-columns: 1.1fr .75fr; grid-template-rows: 1fr auto auto; gap: clamp(1rem, 3vw, 3rem); align-items: center; }
 .cover-copy { position: relative; z-index: 1; }
 .cover-intro { max-width: 36rem; color: var(--muted-dark); margin: 2.25rem 0; }
 .text-link { display: inline-block; text-underline-offset: .35rem; text-decoration-color: var(--accent); }
 .hero-media { width: 100%; aspect-ratio: 3/4; }
+.score-nav { position: relative; grid-column: 1/-1; height: clamp(10rem, 18vw, 13rem); margin-top: clamp(-3rem, -4vw, -1rem); }
+.score-staff { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.score-staff i { position: absolute; left: 4%; width: 92%; height: 165%; border-top: 1px solid var(--line-dark); border-radius: 50%; transform: rotate(-3deg); }
+.score-staff i:nth-child(1) { top: 30%; }
+.score-staff i:nth-child(2) { top: 35%; }
+.score-staff i:nth-child(3) { top: 40%; }
+.score-staff i:nth-child(4) { top: 45%; }
+.score-staff i:nth-child(5) { top: 50%; }
+.score-note { position: absolute; display: grid; justify-items: center; color: var(--paper); text-decoration: none; transform: translate(-50%, -50%); z-index: 2; }
+.note-symbol { display: grid; place-items: center; width: 2.8rem; height: 2.8rem; color: var(--paper); background: var(--ink); border: 1px solid var(--line-dark); border-radius: 50%; font-family: var(--serif); font-size: 1.55rem; transition: color .2s ease, border-color .2s ease, transform .2s ease, background .2s ease; }
+.note-label { margin-top: .35rem; padding: .25rem .45rem; color: var(--muted-dark); background: color-mix(in srgb, var(--ink) 88%, transparent); font-size: .72rem; white-space: nowrap; opacity: .72; transition: color .2s ease, opacity .2s ease; }
+.score-note:hover .note-symbol, .score-note:focus-visible .note-symbol { color: var(--paper); background: var(--accent); border-color: var(--accent); transform: translateY(-.2rem); }
+.score-note:hover .note-label, .score-note:focus-visible .note-label { color: var(--paper); opacity: 1; }
+.note-profile { left: 10%; top: 69%; }
+.note-narratives { left: 29%; top: 45%; }
+.note-wardrobe { left: 49%; top: 31%; }
+.note-comic { left: 70%; top: 38%; }
+.note-story { left: 89%; top: 61%; }
+.sound-toggle { position: absolute; right: 0; bottom: 0; padding: .4rem .65rem; color: var(--muted-dark); background: transparent; border: 1px solid var(--line-dark); cursor: pointer; font-size: .72rem; }
+.sound-toggle:hover, .sound-toggle:focus-visible { color: var(--paper); border-color: var(--muted-dark); }
+.sound-toggle[aria-pressed="false"] { text-decoration: line-through; }
 .cover-index { grid-column: 1/-1; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line-dark); }
 .cover-index span { padding: 1rem 0; color: var(--muted-dark); font-size: .8rem; }
 
@@ -123,6 +144,10 @@ footer { min-height: 9rem; display: flex; justify-content: space-between; gap: 2
   #site-nav.is-open { display: flex; }
   .cover { grid-template-columns: 1fr; }
   .hero-media { max-width: 28rem; justify-self: end; }
+  .score-nav { height: 11rem; margin-top: -1rem; }
+  .note-symbol { width: 2.5rem; height: 2.5rem; }
+  .note-profile { left: 8%; }
+  .note-story { left: 92%; }
   .cover-index { grid-template-columns: repeat(2, 1fr); }
   .profile-layout, .split-heading, .story-layout, .detail-layout { grid-template-columns: 1fr; }
   .profile-media { max-width: 30rem; }
@@ -135,6 +160,10 @@ footer { min-height: 9rem; display: flex; justify-content: space-between; gap: 2
   h1 { font-size: 25vw; }
   .section { padding-top: 4.5rem; padding-bottom: 4.5rem; }
   .cover-index { grid-template-columns: 1fr; }
+  .score-nav { height: 10rem; }
+  .note-symbol { width: 2.2rem; height: 2.2rem; font-size: 1.25rem; }
+  .note-label { font-size: .62rem; padding: .18rem .25rem; }
+  .sound-toggle { right: auto; left: 0; bottom: -.5rem; }
   .cover-index span { border-bottom: 1px solid var(--line-dark); }
   .fact-grid { grid-template-columns: 1fr; }
   .wardrobe-grid { grid-template-columns: 1fr 1fr; gap: .65rem; }
