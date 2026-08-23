@@ -95,5 +95,44 @@
     menuButton.setAttribute("aria-expanded", "false");
     siteNav.classList.remove("is-open");
   });
+
+  let soundEnabled = true;
+  let audioContext;
+  const soundToggle = document.querySelector(".sound-toggle");
+
+  function playNote(frequency) {
+    if (!soundEnabled) return;
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return;
+    audioContext ||= new AudioContextClass();
+    const now = audioContext.currentTime;
+    const gain = audioContext.createGain();
+    const tone = audioContext.createOscillator();
+    const overtone = audioContext.createOscillator();
+    tone.type = "sine";
+    overtone.type = "triangle";
+    tone.frequency.setValueAtTime(frequency, now);
+    overtone.frequency.setValueAtTime(frequency * 2, now);
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(0.09, now + 0.018);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.65);
+    tone.connect(gain);
+    overtone.connect(gain);
+    gain.connect(audioContext.destination);
+    tone.start(now);
+    overtone.start(now);
+    tone.stop(now + 0.68);
+    overtone.stop(now + 0.68);
+  }
+
+  document.querySelectorAll(".score-note").forEach((note) => {
+    note.addEventListener("click", () => playNote(Number(note.dataset.tone)));
+  });
+
+  soundToggle.addEventListener("click", () => {
+    soundEnabled = !soundEnabled;
+    soundToggle.setAttribute("aria-pressed", String(soundEnabled));
+    soundToggle.textContent = `音效：${soundEnabled ? "开" : "关"}`;
+  });
 })();
 
